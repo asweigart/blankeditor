@@ -1,4 +1,5 @@
 import random
+import copy
 
 TOPLEFT = 'topleft'
 TOPMIDDLE = 'topmiddle'
@@ -43,15 +44,20 @@ def main():
 		# run player/computer's turn
 		if turn == PLAYER_TURN:
 			# run the player's turn
-			getPlayerTurn(theBoard)
+			move = getPlayerMove(theBoard) # move is one of the space constants like TOPLEFT
+			theBoard[move] = playerMark
+			turn = COMPUTER_MOVE
 		else:
 			# run the computer's turn
-			getComputerTurn(theBoard)
+			move = getComputerMove(theBoard, computerMark)
+
+
 		# did they win?
+
 		# is there a tie?
 
 
-def getPlayerTurn(bo):
+def getPlayerMove(bo):
 	# ask the player to enter a move on the board.
 	# the space must be empty
 	print('1|2|3')
@@ -70,6 +76,67 @@ def getPlayerTurn(bo):
 		if bo[ALL_MOVES[int(response) - 1]] == EMPTY:
 			print('That space is already taken.')
 			continue
+
+		return ALL_MOVES[int(response) - 1]
+
+def isWinner(bo, mark):
+	return bo[TOPLEFT] == bo[TOPMIDDLE] == bo[TOPRIGHT] == mark or  \
+	       bo[MIDDLELEFT] == bo[MIDDLEMIDDLE] == bo[MIDDLERIGHT] == mark or  \
+	       bo[BOTTOMLEFT] == bo[BOTTOMMIDDLE] == bo[BOTTOMRIGHT] == mark or  \
+	       bo[TOPLEFT] == bo[MIDDLELEFT] == bo[BOTTOMLEFT] == mark or  \
+	       bo[TOPMIDDLE] == bo[MIDDLEMIDDLE] == bo[BOTTOMMIDDLE] == mark or  \
+	       bo[TOPRIGHT] == bo[MIDDLERIGHT] == bo[BOTTOMRIGHT] == mark or  \
+	       bo[TOPLEFT] == bo[MIDDLEMIDDLE] == bo[BOTTOMRIGHT] == mark or \
+	       bo[TOPRIGHT] == bo[MIDDLEMIDDLE] == bo[BOTTOMLEFT] == mark 
+
+
+
+def getComputerMove(bo, computerMark):
+	if computerMark == X:
+		playerMark = O
+	else:
+		playerMark = X
+
+	# check for winning move and make it
+	for move in ALL_MOVES:
+		duplicateBo = copy.copy(bo)
+
+		if duplicateBo[move] != EMPTY:
+			continue
+		duplicateBo[move] = computerMark
+		if isWinner(duplicateBo, computerMark):
+			return move
+
+	# check if human player is going to win, and block it
+	for move in ALL_MOVES:
+		duplicateBo = copy.copy(bo)
+
+		if duplicateBo[move] != EMPTY:
+			continue
+		duplicateBo[move] = playerMark
+		if isWinner(duplicateBo, playerMark):
+			return move	
+
+	# move on a corner space (if available)
+	emptyCornerSpaces = []
+	for possiblyEmptySpace in [TOPLEFT, TOPRIGHT, BOTTOMLEFT, BOTTOMRIGHT]:
+		if possiblyEmptySpace == EMPTY:
+			emptyCornerSpaces.append(possiblyEmptySpace)
+	if len(emptyCornerSpaces) > 0:
+		return random.choice(emptyCornerSpaces)
+
+	# move on center space (if available)
+	if bo[MIDDLEMIDDLE] == EMPTY:
+		return MIDDLEMIDDLE
+	
+	# move on a side space
+	emptySideSpaces = []
+	for possiblyEmptySpace in [TOPMIDDLE, MIDDLELEFT, MIDDLERIGHT, BOTTOMMIDDLE]:
+		if possiblyEmptySpace == EMPTY:
+			emptySideSpaces.append(possiblyEmptySpace)
+
+	return random.choice(emptySideSpaces)
+
 
 
 def getPlayerMark():
