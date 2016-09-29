@@ -33,16 +33,18 @@ def main():
 
 	# decide who goes first
 	turn = getFirstPlayer()
+	print('The %s will go first.' % (turn))
 
 	# create a brand new blank tic tac toe board
 	theBoard = getBlankBoard()
 
 	while True:
-		# display the board
-		displayBoard(theBoard)
-		
+
 		# run player/computer's turn
 		if turn == PLAYER_TURN:
+			# display the board
+			displayBoard(theBoard)
+
 			# run the player's turn
 			move = getPlayerMove(theBoard) # move is one of the space constants like TOPLEFT
 			theBoard[move] = playerMark
@@ -59,6 +61,7 @@ def main():
 
 			# did they win?
 			if isWinner(theBoard, computerMark):
+				displayBoard(theBoard)
 				print('The computer has beaten you!')
 				return
 			turn = PLAYER_TURN
@@ -69,6 +72,7 @@ def main():
 			if theBoard[move] == EMPTY:
 				isTie = False
 		if isTie:
+			displayBoard(theBoard)
 			print('The game is a tie!')
 			return
 
@@ -137,7 +141,7 @@ def getComputerMove(bo, computerMark):
 	# move on a corner space (if available)
 	emptyCornerSpaces = []
 	for possiblyEmptySpace in [TOPLEFT, TOPRIGHT, BOTTOMLEFT, BOTTOMRIGHT]:
-		if possiblyEmptySpace == EMPTY:
+		if bo[possiblyEmptySpace] == EMPTY:
 			emptyCornerSpaces.append(possiblyEmptySpace)
 	if len(emptyCornerSpaces) > 0:
 		return random.choice(emptyCornerSpaces)
@@ -146,10 +150,12 @@ def getComputerMove(bo, computerMark):
 	if bo[MIDDLEMIDDLE] == EMPTY:
 		return MIDDLEMIDDLE
 	
+	assert EMPTY in list(bo.values()), "There are no empty spaces left, but I expected at least one empty side space."
+
 	# move on a side space
 	emptySideSpaces = []
 	for possiblyEmptySpace in [TOPMIDDLE, MIDDLELEFT, MIDDLERIGHT, BOTTOMMIDDLE]:
-		if possiblyEmptySpace == EMPTY:
+		if bo[possiblyEmptySpace] == EMPTY:
 			emptySideSpaces.append(possiblyEmptySpace)
 
 	return random.choice(emptySideSpaces)
@@ -197,6 +203,10 @@ def displayBoard(bo):
 	print(' %s | %s | %s ' % (bo[BOTTOMLEFT], bo[BOTTOMMIDDLE], bo[BOTTOMRIGHT]))
 	print('   |   |   ')
 
+def debugDisplayBoard(bo):
+	print('%s|%s|%s' % (bo[TOPLEFT], bo[TOPMIDDLE], bo[TOPRIGHT]))
+	print('%s|%s|%s' % (bo[MIDDLELEFT], bo[MIDDLEMIDDLE], bo[MIDDLERIGHT]))
+	print('%s|%s|%s' % (bo[BOTTOMLEFT], bo[BOTTOMMIDDLE], bo[BOTTOMRIGHT]))
 
 if __name__ == '__main__':
 	main()
