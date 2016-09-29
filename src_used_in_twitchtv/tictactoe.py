@@ -46,15 +46,32 @@ def main():
 			# run the player's turn
 			move = getPlayerMove(theBoard) # move is one of the space constants like TOPLEFT
 			theBoard[move] = playerMark
-			turn = COMPUTER_MOVE
+
+			# did they win?
+			if isWinner(theBoard, playerMark):
+				print('You have won!!!!!!1111')
+				return
+			turn = COMPUTER_TURN
 		else:
 			# run the computer's turn
 			move = getComputerMove(theBoard, computerMark)
+			theBoard[move] = computerMark
 
-
-		# did they win?
+			# did they win?
+			if isWinner(theBoard, computerMark):
+				print('The computer has beaten you!')
+				return
+			turn = PLAYER_TURN
 
 		# is there a tie?
+		isTie = True
+		for move in ALL_MOVES:
+			if theBoard[move] == EMPTY:
+				isTie = False
+		if isTie:
+			print('The game is a tie!')
+			return
+
 
 
 def getPlayerMove(bo):
@@ -73,7 +90,7 @@ def getPlayerMove(bo):
 			print('Please enter a number from 1 to 9.')
 			continue
 
-		if bo[ALL_MOVES[int(response) - 1]] == EMPTY:
+		if bo[ALL_MOVES[int(response) - 1]] != EMPTY:
 			print('That space is already taken.')
 			continue
 
@@ -182,4 +199,4 @@ def displayBoard(bo):
 
 
 if __name__ == '__main__':
-	pass #main()
+	main()
