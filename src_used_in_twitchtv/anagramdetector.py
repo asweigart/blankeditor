@@ -1,30 +1,27 @@
 import logging
 logging.basicConfig(level=logging.DEBUG)
-logging.disable(logging.CRITICAL)
+#logging.disable(logging.CRITICAL)
+
+def getLetterCount(stringInQuestion):
+	letterCount = {}
+
+	for letter in stringInQuestion:
+		if letter.isalpha():
+			# add `letter` to `letterCount` dictionary
+			letterCount.setdefault(letter, 0)
+			letterCount[letter] += 1
+	logging.debug(letterCount)	
+
+	return letterCount
 
 def isAnagram(string1, string2):
 	# Returns True if `string1` and `string2` are anagrams; otherwise returns False
 	# We are ignoring case and whitespace
+
 	string1 = string1.lower()
 	string2 = string2.lower()
-	letterCount1 = {}
-	letterCount2 = {}
 
-	for letter in string1:
-		if letter.isalpha():
-			# add `letter` to `letterCount` dictionary
-			letterCount1.setdefault(letter, 0)
-			letterCount1[letter] += 1
-	logging.debug(letterCount1)
-
-	for letter in string2:
-		if letter.isalpha():
-			# add `letter` to `letterCount` dictionary
-			letterCount2.setdefault(letter, 0)
-			letterCount2[letter] += 1
-	logging.debug(letterCount2)
-
-	return letterCount1 == letterCount2
+	return getLetterCount(string1) == getLetterCount(string2)
 
 
 
