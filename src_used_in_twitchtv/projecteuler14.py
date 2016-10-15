@@ -62,3 +62,4 @@ def fastWayOfSolving():
 	return longestSeqStartingNum
 
 print(fastWayOfSolving())
+#print(slowWayOfSolving())
