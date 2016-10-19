@@ -1,3 +1,5 @@
+import doctest
+
 def getLetterCount(word):
 	# get letter counts of word1 and word2 in a dictionary, like this: {'a': 0, 'b': 2, ...}
 	letterCount = {}
@@ -19,3 +21,5 @@ def detect_anagrams(originalWord, possibleAnagrams):
 			allAnagrams.append(possibleAnagram)
 
 	return allAnagrams
+
+doctest.testmod()	
