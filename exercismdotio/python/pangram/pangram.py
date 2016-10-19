@@ -1,7 +1,5 @@
 #! python3
 
-import sys
-print(sys.version)
 import string
 
 def is_pangram(sentence):
