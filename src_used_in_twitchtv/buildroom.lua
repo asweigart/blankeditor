@@ -10,8 +10,11 @@ end
 
 local i, j
 
+turtle.up()
+shell.run('buildfloor ' .. LENGTH .. ' ' .. WIDTH)
+
 for j = 1, 2 do
-	shell.run('buildwall ' .. (LENGTH - 1) .. ' ' .. HEIGHT)
+	shell.run('buildwall ' .. (LENGTH - 1) .. ' ' .. WIDTH)
 	turtle.forward()
 	for i = 1, HEIGHT do
 		turtle.down()
@@ -26,3 +29,6 @@ for j = 1, 2 do
 	end
 	turtle.turnRight()
 end
+
+turtle.up()
+shell.run('buildfloor ' .. LENGTH .. ' ' .. WIDTH)
