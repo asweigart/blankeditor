@@ -90,7 +90,7 @@ def getRank(hand): # `hand` is a list of strings. e.g. ['2S', '8H', '6S', '8D', 
 		for card in twoCards:
 			remainingThreeCards.remove(card)
 
-		otherTwoCards = getTwoOfAKind(hand)
+		otherTwoCards = getTwoOfAKind(remainingThreeCards)
 		if otherTwoCards is not None:
 			if RANKS.index(twoCards[0][THE_RANK]) > RANKS.index(otherTwoCards[0][THE_RANK]):
 				return ('two pair', twoCards[0][THE_RANK])
