@@ -1,6 +1,49 @@
 -- 3d printer program by Al Sweigart
 -- Runs in ComputerCraft
 
+--[[
+To use this program, run "3dprint <blueprint file>" from the turtle's shell.
+
+The blueprint is a text file with the following format:
+
+* A legend section, where a single letter represents a type of block
+* A section for the bottommost layer, showing the blocks used.
+* A section for the next layer up, and so on.
+* Sections are ended by a line with nothing but a ~ character.
+* You can get the block name by running turtle.getItemDetail() on the turtle's inventory.
+* Periods are blank spaces.
+* The turtle starts at the top left corner of the blueprint, building in front and to its left.
+
+Example blueprint file for a small cobblestone pyramid with a stonebrick peak:
+C=minecraft:cobblestone
+B=minecraft:stonebrick
+~
+CCCCC
+CCCCC
+CCCCC
+CCCCC
+CCCCC
+~
+....
+.CCC
+.CCC
+.CCC
+~
+...
+...
+..S
+~
+
+
+
+
+
+
+
+
+]]
+
+
 -- NOTE: copy/pasted from my "hare" program
 function sweepField(forward, left, sweepFunc)
   local x = 0
